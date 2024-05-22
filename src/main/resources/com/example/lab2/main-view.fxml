@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="382.0" prefWidth="604.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lab2.mainController">
+   <center>
+      <Pane fx:id="viewGame" onMouseClicked="#mouseEvent" prefHeight="335.0" prefWidth="469.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="enterUsernameTextField" layoutX="149.0" layoutY="151.0" prefHeight="55.0" prefWidth="185.0" promptText="Enter your username" />
+         </children></Pane>
+   </center>
+   <bottom>
+      <Pane prefHeight="26.0" prefWidth="580.0" style="-fx-border-color: black; -fx-background-color: lightgrey;" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="connectButton" mnemonicParsing="false" onAction="#connect" prefHeight="25.0" prefWidth="122.0" text="Connect" />
+            <Button fx:id="pauseButton" layoutX="122.0" mnemonicParsing="false" onAction="#Pause" prefHeight="25.0" prefWidth="109.0" text="Pause" />
+            <Button fx:id="continueButton" layoutX="231.0" mnemonicParsing="false" onAction="#Continue" prefHeight="25.0" prefWidth="108.0" text="Continue" />
+            <Button fx:id="readyButton" layoutX="339.0" mnemonicParsing="false" onAction="#Ready" prefHeight="25.0" prefWidth="101.0" text="Ready" />
+            <Button fx:id="leaderBoardButton" layoutX="440.0" mnemonicParsing="false" onAction="#leaderBoard" prefHeight="25.0" prefWidth="92.0" text="Leaderboard" />
+         </children></Pane>
+   </bottom>
+   <right>
+      <Pane prefHeight="356.0" prefWidth="121.0" style="-fx-background-color: lightgray; -fx-border-color: black;" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="userNameLabel" layoutX="10.0" layoutY="34.0" prefHeight="17.0" prefWidth="93.0" text="Username" />
+            <Label fx:id="scoreLabel" layoutX="11.0" layoutY="61.0" prefHeight="17.0" prefWidth="90.0" text="Score: " />
+            <Label fx:id="numOfShotsLabel" layoutX="10.0" layoutY="85.0" prefHeight="17.0" prefWidth="93.0" text="Num of shots:" />
+            <Label fx:id="gamesWonLabel" layoutX="11.0" layoutY="110.0" text="Games won:" />
+         </children></Pane>
+   </right>
+</BorderPane>
