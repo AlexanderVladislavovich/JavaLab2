@@ -51,7 +51,6 @@ public class ClientClass {
         String resp;
         try {
             resp = dis.readUTF();
-            System.out.println(" recvResp: " + resp);
             Msg m = gson.fromJson(resp, Msg.class);
             if (m.type == TypeAction.END) {
                 model.stats = m.stats;
@@ -115,7 +114,7 @@ public class ClientClass {
     }
     public void sendMsg() {
 
-        String str;// = "message from a client";
+        String str;
         try {
             Msg m = new Msg(model.getBullets());
             str = gson.toJson(m);
@@ -127,16 +126,10 @@ public class ClientClass {
 
 
     public void connect(){
-//        InputStream is;
-//        OutputStream os;
-//        DataInputStream dis;
-//        DataOutputStream dos;
         try {
             ip = InetAddress.getLocalHost();
             Socket sc = new Socket(ip, port);
-            //socket = new mySocket(sc);
             System.out.println("client connected");
-
 
             is = sc.getInputStream();
             os = sc.getOutputStream();
@@ -145,22 +138,12 @@ public class ClientClass {
             dos = new DataOutputStream(os);
             clientId = dis.readInt();
 
-            System.out.println("client sending a message, client id = " + clientId);
-
-            //dos.writeUTF("hello from client");
             new Thread(()->{listen();}).start();
-            //String str = dis.readUTF();
-            //System.out.println("message from server: " + str);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-//    public void updateModel(ArrayList<Point> points) {
-//        model.setTargets(points);
-//        event();
-//    }
     public void listen() {
-        System.out.println("client listen()");
         while (true) {
             recvResp();
         }
@@ -173,16 +156,10 @@ public class ClientClass {
         return model.getSmallTarget();
     }
     public Point[] getBullets() {
-        //System.out.println("client class get bullets() ");
         return model.getBullets();
     }
-//    public void setModel(Point big, Point small) {
-//        model.setBigTarget(big.x, big.y);
-//        model.setSmallTarget(small.x, small.y);
-//    }
 
     public boolean addBullet(Point p) {
-        //model.setUserBullet(p.x, p.y);
         if (model.getBullets()[clientId] == null) {
             model.setBullet(p, clientId);
             sendMsg();
@@ -190,16 +167,7 @@ public class ClientClass {
         }
     return false;
     }
-//    public void TEST_addPoint(Point p) {
-//        model.TEST_addPoint(p);
-//        event();
-//        System.out.println("point added");
-//    }
-//    public void updateModel(Point point) {
-//        System.out.println("Update model");
-//        model.addTarget(point);
-//        event();
-//    }
+
     public ArrayList<Point> TEST_getData() {
         return model.targets;
     }
