@@ -14,9 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
-import java.util.List;
-
-public class mainController implements Observer{
+public class mainController implements Observer,Observer2{
 
 
 
@@ -44,14 +42,17 @@ public class mainController implements Observer{
     Button readyButton;
     @FXML
     Button leaderBoardButton;
-
+    @FXML
+    TextArea textArea;
     @FXML
     Text winnerText;
+
     @FXML
     TextField enterUsernameTextField;
 
     @FXML
     public void mouseEvent(MouseEvent evn) {
+        if (!client.isReady) return;
         boolean flag = client.addBullet(new Point((int)evn.getX(),(int)evn.getY()));
         if (flag) client.numOfShots++;
     }
@@ -59,17 +60,20 @@ public class mainController implements Observer{
     //@FXML
     public void Pause(){
         client.pauseRequest();
+        leaderBoardButton.setDisable(false);
         pauseButton.setDisable(true);
         continueButton.setDisable(false);
     }
     public void Continue() {
         client.continueRequest();
+        leaderBoardButton.setDisable(true);
         pauseButton.setDisable(false);
         continueButton.setDisable(true);
     }
     public void Ready() {
         String str = enterUsernameTextField.getText();
         if(!str.equals("")) {
+            pauseButton.setDisable(false);
             client.isReady = true;
             client.readyRequest(str);
             readyButton.setDisable(true);
@@ -81,8 +85,12 @@ public class mainController implements Observer{
         client.leaderBoardRequest();
     }
     public void initialize() {
+        readyButton.setDisable(true);
+        leaderBoardButton.setDisable(true);
+        pauseButton.setDisable(true);
         continueButton.setDisable(true);
         client.addObserver(this);
+        client.addObserver2(this);
         enterUsernameTextField.setVisible(false);
     }
     //@FXML
@@ -94,18 +102,22 @@ public class mainController implements Observer{
             viewGame.getChildren().add(cbig);
             Circle csmall = new Circle(client.getSmallTarget().x, client.getSmallTarget().y, 10, Color.BLUE);
             viewGame.getChildren().add(csmall);
-            for (Point p :client.getBullets()) {
-                if (p != null) {
-                    Circle c = new Circle(p.x, p.y, 2, Color.GREEN);
-                    viewGame.getChildren().add(c);
+            if (client.getBullets() != null) {
+                for (Point p :client.getBullets()) {
+                    if (p != null) {
+                        Circle c = new Circle(p.x, p.y, 2, Color.GREEN);
+                        viewGame.getChildren().add(c);
+                    }
                 }
             }
-            numOfShotsLabel.setText("Num of shots: " + client.numOfShots);
+
+            //numOfShotsLabel.setText("Num of shots: " + client.numOfShots);
             scoreLabel.setText("score: " + client.score);
         });
     }
     public void viewWinner() {
         Platform.runLater(() -> {
+            pauseButton.setDisable(true);
             ObservableList<Node> list = viewGame.getChildren();
             list.clear();
             winnerText = new Text();
@@ -136,8 +148,30 @@ public class mainController implements Observer{
 
     @FXML
     public void connect() {
+        readyButton.setDisable(false);
+        //leaderBoardButton.setDisable(false);
         client.connect();
         connectButton.setDisable(true);
         enterUsernameTextField.setVisible(true);
+    }
+
+    @Override
+    public void eventObs2() {
+        Platform.runLater(() -> {
+            ObservableList<Node> list = viewGame.getChildren();
+            list.clear();
+            textArea = new TextArea();
+            textArea.setEditable(false);
+            textArea.setLayoutX(210);
+            textArea.setLayoutY(100);
+            textArea.setPrefWidth(150);
+            String text = "Name  |  Wins \n";
+            for (leaderBoard l:client.leaderboard) {
+                text += l.print2() + "\n";
+            }
+            textArea.setText(text);
+            viewGame.getChildren().add(textArea);
+        });
+
     }
 }

@@ -29,14 +29,14 @@ public class GameModel {
     }
 
     public void setBullets(Point[] bullets) {
-        this.bullets = bullets;
+        if (bullets != null ) this.bullets = bullets;
     }
 
     public void setBullet(Point p, int id) {
         bullets[id] = p;
     }
     public void moveBullets(int speed, int id) {
-        if (bullets[id] != null) {
+        if (bullets != null && bullets[id] != null) {
             bullets[id].x += 3 * speed;
             if (bullets[id].x >= 650) bullets[id] = null;
         }

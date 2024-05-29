@@ -13,8 +13,8 @@ public class ClientClass {
     GameModel model = new GameModel();
     //mySocket socket;
     ArrayList<Observer> obs = new ArrayList<>();
-
-    List<leaderBoard> leaderboard = null;
+    Observer2 obs2;
+    public List<leaderBoard> leaderboard = null;
     Gson gson = new Gson();
     InputStream is;
     OutputStream os;
@@ -30,6 +30,10 @@ public class ClientClass {
         obs.add(o);
     }
 
+    public void addObserver2(Observer2 o) {
+        obs2 = o;
+    }
+
     public void event1() {
         for (Observer o:obs) {
             o.event1();
@@ -40,6 +44,10 @@ public class ClientClass {
         for (Observer o:obs) {
             o.event2();
         }
+    }
+
+    public void eventObs2() {
+        obs2.eventObs2();
     }
     public void printLeaderboard() {
         for (leaderBoard i:leaderboard) {
@@ -60,6 +68,7 @@ public class ClientClass {
                 List<leaderBoard> l = m.lb;
                 leaderboard = l;
                 printLeaderboard();
+                eventObs2();
                 return resp;
             }
             model.setBigTarget(m.bigTarget.x, m.bigTarget.y);

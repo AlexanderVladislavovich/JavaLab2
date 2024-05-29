@@ -37,6 +37,7 @@ public void print() {
     System.out.println("name="+ username + " winnum=" + winnum);
 }
 public String print2() {
-    return (String) "name="+ username + " winnum=" + winnum;
+    //return (String) "name="+ username + " winnum=" + winnum;
+    return (String) username + "  |  " + winnum;
 }
 }

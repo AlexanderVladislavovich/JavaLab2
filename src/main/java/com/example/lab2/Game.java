@@ -70,6 +70,7 @@ public class Game {
                 if (gameThread == null) {
                     gameThread = new Thread(() -> {
                         while (true) {
+                            System.out.println("wait for ready");
                             if (mainServer.IsAllReady()) {
                                 run();
                                 break;
@@ -116,7 +117,10 @@ public class Game {
     }
 
     public boolean collisionCheck() {
-        Point p = model.getBullets()[clientId];
+        Point[] points = model.getBullets();
+        Point p = null;
+        if (points != null)  p = model.getBullets()[clientId];
+
             if (p != null) {
                 double dx = model.getBigTarget().x - p.x;
                 double dy = model.getBigTarget().y - p.y;
